@@ -1,0 +1,289 @@
+<span style="font-family: verdana, geneva, sans-serif;">
+  <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <title>Attendance Dashboard | <?= title ?> </title>
+      <?!= include("check-in-css"); ?>
+      <!-- Font Awesome Cdn Link -->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+      <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    </head>
+
+<body>
+      <div class="container">
+        <nav class="navbar">
+          <ul>
+            <li>
+                <a href="/index" class="logo">
+                    <img src="/images/lethal circle company.png">
+                    <span class="nav-item">Lethal CO.</span>
+          </a>
+          </li>
+
+          <li class="menu">
+              <a href="/Attendance">
+                  <i class="fas fa-chart-bar"></i>
+                  <span class="nav-item">Attendance</span>
+              </a>
+          </li>
+          <li class="menu">
+              <a href="/Check-in">
+                  <i class="fas fa-user"></i>
+                  <span class="nav-item">Check-in</span>
+              </a>
+          </li>
+          <li class="menu">
+              <a href="/Edit">
+                  <i class="fas fa-cog"></i>
+                  <span class="nav-item">Edit</span>
+              </a>
+          </li>
+
+          </ul>
+          </nav>
+
+<section class="main">
+    <div class="main" id="present">
+        <div class="present">
+            <div class="main-top">
+                <h1>Present</h1>
+                <i class='bx bxs-calendar'></i>
+            </div>
+            <!-- <div class="users">
+                <div class="card" id="user">
+                    <img src="/images/Chisato.jpg">
+                    <h4>Chisato Nishikigi</h4>
+                    <p>Ui designer</p>
+                    <p>07.45am</p>
+                    <div class="per">
+                        <table>
+                            <tr>
+                                <i class='bx bxl-gmail tooltip'>&nbsp;&nbsp;&nbsp;
+                                    <span class="tooltiptext">Chisato@gmail.com</span>
+                                </i>
+                                <i class='bx bxs-phone tooltip'>&nbsp;&nbsp;&nbsp;
+                                    <span class="tooltiptext">0123456789</span>
+                                </i>
+                                <a href=""><i class='bx bx-id-card tooltip right'>
+                                    <span class="tooltiptext">Edit</span>
+                                </i></a>
+                            </tr>
+                        </table>
+                    </div>
+                    <button class="cancel-btn">Cancel</button>
+                </div>
+                
+            </div>-->
+           
+        </div>
+    </div>
+
+    <div class="main" id="absent">
+        <div class="absent" >
+           <div class="main-top">
+                <h1>Absent</h1>
+            </div>
+            <!-- <div class="users">
+                <div class="card">
+                    <img src="/images/Tochisa.jpg">
+                    <h4>Chisato Nishikigi</h4>
+                    <p>Ui designer</p>
+                    <p>...</p>
+                    <div class="per">
+                        <table>
+                            <tr>
+                                <i class='bx bxl-gmail'>&nbsp;&nbsp;&nbsp;</i>
+                                <i class='bx bxs-phone'>&nbsp;&nbsp;&nbsp;</i>
+                                <i class='bx bx-id-card'></i>
+                            </tr>
+                        </table>
+                    </div>
+                    <button class="add-btn">Add</button>
+                </div>  -->
+            </div>
+        </div>
+</section>
+</div>
+
+<script>
+google.script.run
+  .withSuccessHandler(function(data) {
+    console.log("Data received:", data);
+  })
+  .getData();
+
+document.addEventListener("DOMContentLoaded", function() {
+  google.script.run.withSuccessHandler(generateCard).getData();
+});
+
+
+var attendanceIds;
+
+google.script.run
+  .withSuccessHandler(function(data) {
+    attendanceIds = data;
+    console.log("Attendance Data received:", attendanceIds);
+  })
+  .getAttendance();
+
+function isIDPresent(id) { // Example array of attendance IDs
+  return attendanceIds.includes(id);
+  console.log("Attendance Data received:", attendanceIds);
+}
+
+function generateCard(dataArray) {
+  if (!dataArray || dataArray.length === 0) {
+    console.log("No data found.");
+    return;
+  }
+
+  var presentContainer = document.getElementById("present");
+  var absentContainer = document.getElementById("absent");
+
+  // Arrays to store data for present and absent employees
+  var presentEmployees = [];
+  var absentEmployees = [];
+  
+  // Separate present and absent employees based on ID existence
+  for (var i = 0; i < dataArray.length; i++) {
+    if (isIDPresent(dataArray[i][0])) {
+      presentEmployees.push(dataArray[i]);
+      console.log("presentEmployees Data received:", dataArray[i]);
+    } else {
+      absentEmployees.push(dataArray[i]);
+      console.log("absentEmployees Data received:", dataArray[i]);
+    }
+  }
+
+  // Function to generate cards for a given set of employees and append them to the container
+  function generateCards(container, employees, targetDiv) {
+    for (var i = 0; i < employees.length; i += 4) {
+      var users = document.createElement("div");
+      users.classList.add("users");
+      container.appendChild(users);
+
+    for (var j = i; j < Math.min(i + 4, employees.length); j++) {
+    var card = document.createElement("div");
+              card.classList.add("card");
+
+              //create image
+              var image = document.createElement("img");
+              image.src = employees[j][5]; 
+
+              //create text elements 
+              var name = document.createElement("h4");
+              name.textContent = employees[j][1];
+
+              var employeeID = document.createElement("p");
+              employeeID.classList.add("employeeID");
+              employeeID.textContent = "ID: " + employees[j][0];
+
+              var position = document.createElement("p");
+              position.textContent = "Position: " + employees[j][2];
+
+              var divideLine = document.createElement("p");
+              divideLine.classList.add("divideline");
+              divideLine.textContent = "--------------------------";
+
+
+              //element for table
+              var per = document.createElement("div");
+              per.classList.add("per");
+
+              //create table element
+              var table = document.createElement("table");
+
+              //create tr
+              var tr = document.createElement("tr");
+
+              //create i
+              var email = document.createElement("i");
+              email.classList.add("bx", "bxl-gmail", "tooltip");
+              email.textContent = "\u00A0\u00A0\u00A0";
+
+              var emailText = document.createElement("span");
+              emailText.classList.add("tooltiptext");
+              emailText.textContent = employees[j][3];
+            
+               //create i
+              var phone = document.createElement("i");
+              phone.classList.add("bx", "bxs-phone", "tooltip");
+              phone.textContent = "\u00A0\u00A0\u00A0";
+
+              var phoneText = document.createElement("span");
+              phoneText.classList.add("tooltiptext");
+              phoneText.textContent = employees[j][4];
+            
+              //create i
+              var editLink = document.createElement("a");
+              editLink.href = "#";
+              
+              var edit = document.createElement("i");
+              edit.classList.add("bx", "bxs-edit", "tooltip",);
+
+              var editText = document.createElement("span");
+              editText.classList.add("tooltiptext");
+              editText.textContent = "Edit";
+
+              //create footer
+              var company = document.createElement("button");
+
+              if (targetDiv === "present") {
+              company.classList.add("cancel-btn");
+              company.textContent = "Cancel";} 
+              else if (targetDiv === "absent"){
+              company.classList.add("add-btn");
+              company.textContent = "Add";}
+              
+              
+
+              //appending elements
+
+              editLink.appendChild(edit);
+
+              phone.appendChild(phoneText);
+
+              email.appendChild(emailText);
+
+              tr.appendChild(email);
+              tr.appendChild(phone);
+              tr.appendChild(editLink);
+
+              table.appendChild(tr);
+
+              per.appendChild(table);
+
+              card.appendChild(image);
+              card.appendChild(name);
+              card.appendChild(position);
+              card.appendChild(employeeID);
+              card.appendChild(divideLine);
+              card.appendChild(per);
+              card.appendChild(company);
+
+        users.appendChild(card);
+      }
+    }
+  }
+  console.log("presentEmployees:", presentEmployees);
+  console.log("absentEmployees:", absentEmployees);
+
+  // Generate cards for present employees
+  generateCards(presentContainer, presentEmployees, "present");
+  
+
+  // Generate cards for absent employees
+  generateCards(absentContainer, absentEmployees, "absent");
+}
+
+
+
+</script>
+
+
+
+</body>
+
+</html>
+</span>
