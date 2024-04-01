@@ -3,7 +3,7 @@
     <html lang="en">
     <head>
       <meta charset="UTF-8" />
-      <title>Attendance Dashboard | <?= title ?> </title>
+      <title>Attendance Dashboard | Attendance </title>
       <?!= include("check-in-css"); ?>
       <!-- Font Awesome Cdn Link -->
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
@@ -11,18 +11,26 @@
     </head>
 
 <body>
+
+<script>
+  
+  var url = getScriptUrl();
+  console.log("URL:", url);
+
+</script>
+
       <div class="container">
         <nav class="navbar">
           <ul>
             <li>
                 <a href="/index" class="logo">
-                    <img src="/images/lethal circle company.png">
+                    <img src="https://cdn.akamai.steamstatic.com/steam/apps/1966720/capsule_616x353.jpg?t=1700231592">
                     <span class="nav-item">Lethal CO.</span>
           </a>
           </li>
 
           <li class="menu">
-              <a href="/Attendance">
+              <a href="?v=attendance">
                   <i class="fas fa-chart-bar"></i>
                   <span class="nav-item">Attendance</span>
               </a>
@@ -50,31 +58,7 @@
                 <h1>Present</h1>
                 <i class='bx bxs-calendar'></i>
             </div>
-            <!-- <div class="users">
-                <div class="card" id="user">
-                    <img src="/images/Chisato.jpg">
-                    <h4>Chisato Nishikigi</h4>
-                    <p>Ui designer</p>
-                    <p>07.45am</p>
-                    <div class="per">
-                        <table>
-                            <tr>
-                                <i class='bx bxl-gmail tooltip'>&nbsp;&nbsp;&nbsp;
-                                    <span class="tooltiptext">Chisato@gmail.com</span>
-                                </i>
-                                <i class='bx bxs-phone tooltip'>&nbsp;&nbsp;&nbsp;
-                                    <span class="tooltiptext">0123456789</span>
-                                </i>
-                                <a href=""><i class='bx bx-id-card tooltip right'>
-                                    <span class="tooltiptext">Edit</span>
-                                </i></a>
-                            </tr>
-                        </table>
-                    </div>
-                    <button class="cancel-btn">Cancel</button>
-                </div>
-                
-            </div>-->
+          
            
         </div>
     </div>
@@ -84,23 +68,7 @@
            <div class="main-top">
                 <h1>Absent</h1>
             </div>
-            <!-- <div class="users">
-                <div class="card">
-                    <img src="/images/Tochisa.jpg">
-                    <h4>Chisato Nishikigi</h4>
-                    <p>Ui designer</p>
-                    <p>...</p>
-                    <div class="per">
-                        <table>
-                            <tr>
-                                <i class='bx bxl-gmail'>&nbsp;&nbsp;&nbsp;</i>
-                                <i class='bx bxs-phone'>&nbsp;&nbsp;&nbsp;</i>
-                                <i class='bx bx-id-card'></i>
-                            </tr>
-                        </table>
-                    </div>
-                    <button class="add-btn">Add</button>
-                </div>  -->
+            
             </div>
         </div>
 </section>

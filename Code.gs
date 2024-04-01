@@ -11,6 +11,7 @@ function doGet(e) {
 
   Route.path("attendance",loadAttendance);
   // Route.path("edit",loadEdit);
+  Route.path("about",loadAbout);
 
   if (Route[e.parameters.v]){
     return Route[e.parameters.v]();
@@ -47,7 +48,7 @@ function getScriptUrl() {
 
 function getData(){
   var ss = SpreadsheetApp.openByUrl(sheetURL);
-  var ws = ss.getSheetByName("Employtee_Details");
+  var ws = ss.getSheetByName("Employee_Details");
   var data = ws.getRange(2, 1, ws.getLastRow()-1,6).getValues();
 
   // var jsondata = JSON.stringify(data)
@@ -69,5 +70,9 @@ function getAttendance(){
 }
 
 function loadAttendance(){
-  return render("Attendance",{title: Attendance})
+  return render("Attendance");
+}
+
+function loadAbout(){
+  return render("about");
 }
